@@ -1,5 +1,9 @@
 #include <stdio.h>
 
+// FEN Debug positions
+char start_position[] = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+char tricky_position[] = "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1";
+
 // piece encoding
 enum {e, P, N, B, R, Q, K, p, n, b, r, q, k, o};
 
@@ -67,6 +71,7 @@ void print_board() {
     printf("\n");
     // loop over board ranks
     for(int rank = 0; rank < 8; rank++) {
+        // loop over board files
         for(int file = 0; file < 16; file++) {
             // init square
             int square = rank * 16 + file;
@@ -76,7 +81,7 @@ void print_board() {
                 printf("%d ",  8 - rank);
 
             // if square is on board
-            if ((square & 0x88) == 0) 
+            if (!(square & 0x88)) 
                 printf("%c ", ascii_pieces[board[square]]);
                 // printf("%s ", unicode_pieces[board[square]]);
         }
@@ -87,8 +92,49 @@ void print_board() {
     printf("\n  a b c d e f g h\n\n"); 
 }
 
+// reset board
+void reset_board() {
+    // loop over board ranks
+    for(int rank = 0; rank < 8; rank++) {
+        // loop over board files
+        for(int file = 0; file < 16; file++) {
+            // init square
+            int square = rank * 16 + file;
+            // if square is on board
+            if (!(square & 0x88)) 
+                board[square] = e; // reset baord square
+        }
+    }
+}
+
+// parse FEN
+void parse_fen(char *fen) {
+    reset_board();
+
+    // loop over board ranks
+    for(int rank = 0; rank < 8; rank++) {
+        // loop over board files
+        for(int file = 0; file < 16; file++) {
+            // init square
+            int square = rank * 16 + file;
+            // if square is on board
+            if (!(square & 0x88)) {
+                // match pieces
+                if ((*fen >= 'a' && *fen <= 'z') || (*fen >= 'A' && *fen <= 'Z')) {
+                    // set pieces on board 
+                    
+                    // increment FEN pointer
+                }
+                
+            }
+        }
+    }
+}
+
 int main() {
 
+
+    parse_fen(tricky_position);
     print_board();
 
     return 0;
